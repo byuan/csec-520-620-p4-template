@@ -125,3 +125,25 @@ def test_scratch_log_space_does_not_underflow():
 def test_scratch_smoothing_avoids_zero_probability():
     nb = _scratch_or_skip(alpha=1.0)
     assert np.isfinite(nb.feature_log_prob_).all()      # a word unseen in a class is not impossible
+
+
+# ----------------------------------------------- exploratory: Enron-Spam --
+ENRON = "tests/fixtures/enron_sample"
+
+
+def test_enron_loader_reads_ham_and_spam_in_arrival_order():
+    from src.data import read_enron
+    texts, labels = read_enron(ENRON)
+    assert len(texts) == 8 and set(labels) == {0, 1}
+    assert labels[:4].tolist() == [0, 0, 0, 0]       # ham fixtures are dated earlier than spam
+
+
+def test_cross_corpus_exploration_runs_both_directions():
+    from src.run import run_cross_corpus
+    cfg = {"seed": 0, "data": {"source": "sample", "deduplicate": True, "enron_path": ENRON},
+           "features": {"kind": "tfidf", "ngram_range": [1, 1], "min_df": 1},
+           "naive_bayes": {"implementation": "reference", "alpha": 1.0}, "svm": {"C": 1.0}}
+    res = run_cross_corpus(cfg, "results")
+    assert set(res["directions"]) == {"sms_to_enron", "enron_to_sms"}
+    for d in res["directions"].values():
+        assert 0.0 <= d["naive_bayes"]["f1"] <= 1.0 and "mcc" in d["linear_svm"]

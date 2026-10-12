@@ -40,3 +40,34 @@ Format: one message per line, `label<TAB>text`, with label `ham` or `spam`.
 Almeida, T. A., Gomez Hidalgo, J. M., & Yamakami, A. (2011). *Contributions to the Study of SMS
 Spam Filtering: New Collection and Results.* Proceedings of the 2011 ACM Symposium on Document
 Engineering (DocEng'11).
+
+## Exploratory dataset: Enron-Spam (larger, e-mail)
+
+A larger, labeled e-mail corpus from the same literature (**Metsis, Androutsopoulos & Paliouras, 2006**):
+six datasets built from the legitimate mail of Enron employees plus spam, about 33,000 messages in total.
+
+1. Go to <https://www2.aueb.gr/users/ion/data/enron-spam/> (readme: <http://www.aueb.gr/users/ion/data/enron-spam/readme.txt>).
+2. Download the **preprocessed** sets, for example
+   `http://www.aueb.gr/users/ion/data/enron-spam/preprocessed/enron1.tar.gz` (about 1.8 MB; `enron2` ... `enron6` are the others).
+   `raw/` has the original messages (duplicates kept) if you prefer to do your own preprocessing.
+3. Extract into `data/` so you have `data/enron1/ham/` and `data/enron1/spam/`. These stay untracked.
+4. Use it in `config.yaml`:
+
+```yaml
+data:
+  enron_path: data/enron1
+evaluate:
+  cross_corpus: true      # train on SMS, test on Enron, and the reverse (written to metrics.json -> cross_corpus)
+```
+
+   or run the entire pipeline on Enron instead of SMS with `data.source: enron`.
+
+Notes: each message is its own text file; the number and date in the file name give the arrival order, which
+the loader uses so that the `paper` protocol is chronological for Enron. Messages are long, with a subject line
+and sometimes HTML, unlike 160-character SMS, so preprocessing matters more. Class balance also differs from
+the SMS set (about half spam), so the all-ham baseline and the base-rate discussion change. Record the
+file(s) and retrieval date in your report.
+
+Citation: V. Metsis, I. Androutsopoulos and G. Paliouras, *Spam Filtering with Naive Bayes - Which Naive
+Bayes?* Proceedings of the 3rd Conference on Email and Anti-Spam (CEAS 2006), Mountain View, CA.
+

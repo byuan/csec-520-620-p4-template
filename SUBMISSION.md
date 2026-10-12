@@ -48,5 +48,9 @@ Anything non-default the grader must know (data download, runtime):
 
 - Operating point / threshold and the cost argument behind it:
 
+## Exploratory task (Enron-Spam), if done
+- Which Enron set(s) and what you did (pipeline on Enron / cross-corpus):
+- Main finding (transfer SMS <-> Enron, differences from the SMS results):
+
 ## AI-use acknowledgment
 Per the syllabus policy, briefly note any substantive use of AI assistants.

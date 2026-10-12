@@ -3,7 +3,9 @@ seed: 42
 
 data:
   source: sample             # "sample" = tiny bundled corpus (debugging) | "file" = the real SMS Spam Collection
+                             # | "enron" = run the whole pipeline on Enron-Spam instead (see data/README.md)
   path: data/SMSSpamCollection
+  enron_path: data/enron1    # extracted Enron-Spam folder with ham/ and spam/ (exploratory task)
   deduplicate: true          # drop exact duplicate messages BEFORE splitting (say what you chose in your report)
   train_frac: 0.30           # fraction of messages used for training in both protocols
 
@@ -35,6 +37,7 @@ kmeans:                      # exploratory clustering of the TF-IDF vectors (lab
   lsi_components: 50         # reduce with truncated SVD first (L10)
 
 evaluate:
+  cross_corpus: false        # exploratory: train on the main corpus, test on Enron-Spam (and the reverse)
   alpha_sweep: [0, 0.01, 0.1, 0.5, 1.0, 2.0]   # Naive Bayes smoothing sweep (alpha = 0 shows the zero-frequency problem)
 
 compare_to_reference: true   # when naive_bayes.implementation = scratch, also run the reference and report agreement

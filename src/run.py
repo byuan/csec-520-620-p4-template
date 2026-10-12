@@ -15,9 +15,10 @@ import yaml
 from scipy import sparse
 
 from . import evaluate as ev
-from .data import load_split
+from .data import load_split, read_corpus, read_enron, deduplicate
 from .features import fit_transform_split
 from .naive_bayes import NaiveBayesReference, NaiveBayesScratch, build_nb
+from .features import build_vectorizer
 from .models import build_svm, build_knn, spam_scores_from_log_proba, explore_kmeans
 
 
@@ -103,6 +104,34 @@ def run_protocol(cfg, protocol, out):
     return res
 
 
+def run_cross_corpus(cfg, out):
+    """EXPLORATORY (Enron-Spam). Train on the main corpus, test on Enron, and the reverse.
+    Shows how much a spam filter transfers across domains (SMS <-> e-mail). Labels are used to train
+    and to score only; each vectorizer is fitted on its own TRAINING corpus."""
+    a_t, a_y = read_corpus(cfg)
+    if cfg["data"].get("deduplicate", True):
+        a_t, a_y, _ = deduplicate(a_t, a_y)
+    b_t, b_y = read_enron(cfg["data"]["enron_path"])
+    if cfg["data"].get("deduplicate", True):
+        b_t, b_y, _ = deduplicate(b_t, b_y)
+    names = {"sms_to_enron": (a_t, a_y, b_t, b_y), "enron_to_sms": (b_t, b_y, a_t, a_y)}
+    res = {"main_source": cfg["data"]["source"], "enron_path": cfg["data"]["enron_path"], "directions": {}}
+    for name, (tr_t, tr_y, te_t, te_y) in names.items():
+        vec = build_vectorizer(cfg)
+        X_tr = vec.fit_transform(tr_t)
+        X_te = vec.transform(te_t)
+        nb = build_nb(cfg).fit(X_tr, tr_y)
+        svm = build_svm(cfg).fit(X_tr, tr_y)
+        res["directions"][name] = {
+            "n_train": len(tr_t), "n_test": len(te_t),
+            "spam_rate_train": float(tr_y.mean()), "spam_rate_test": float(te_y.mean()),
+            "naive_bayes": ev.classification_metrics(
+                te_y, nb.predict(X_te), spam_scores_from_log_proba(nb.predict_log_proba(X_te), nb.classes_)),
+            "linear_svm": ev.classification_metrics(te_y, svm.predict(X_te), svm.decision_function(X_te)),
+        }
+    return res
+
+
 def main(config_path):
     with open(config_path) as f:
         cfg = yaml.safe_load(f)
@@ -115,6 +144,9 @@ def main(config_path):
     for protocol in cfg["protocols"]:
         print(f"== protocol: {protocol}")
         metrics["protocols"][protocol] = run_protocol(cfg, protocol, out)
+    if cfg["evaluate"].get("cross_corpus", False):
+        print("== exploratory: cross-corpus (main corpus <-> Enron-Spam)")
+        metrics["cross_corpus"] = run_cross_corpus(cfg, out)
     first = metrics["protocols"][cfg["protocols"][0]]
     metrics["summary"] = {name: {k: round(m[k], 4) for k in ("precision", "recall", "f1", "mcc") if k in m}
                           for name, m in first["models"].items()}

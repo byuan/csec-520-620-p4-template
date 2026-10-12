@@ -18,10 +18,35 @@ import numpy as np
 SAMPLE = Path(__file__).resolve().parent.parent / "tests" / "fixtures" / "sample_sms.tsv"
 
 
+def read_enron(path):
+    """Read an Enron-Spam folder (Metsis et al., 2006) with `ham/` and `spam/` subfolders, e.g. the
+    extracted `enron1/`. File names look like `0001.2001-01-10.farmer.ham.txt`: we order the messages
+    by the date in the name (then the arrival number) so the paper-style split is chronological.
+    Returns (texts, labels) with spam = 1."""
+    path = Path(path)
+    if not (path / "ham").is_dir() and (path / "enron1").is_dir():
+        path = path / "enron1"
+    items = []
+    for lab, sub in ((0, "ham"), (1, "spam")):
+        folder = path / sub
+        if not folder.is_dir():
+            raise FileNotFoundError(f"{folder} not found. See data/README.md (Enron-Spam).")
+        for f in folder.glob("*.txt"):
+            parts = f.name.split(".")
+            date = parts[1] if len(parts) > 2 else ""
+            items.append((date, parts[0], lab, f))
+    items.sort(key=lambda t: (t[0], t[1], t[2]))
+    texts = [f.read_text(encoding="latin-1", errors="ignore") for *_, f in items]
+    return texts, np.array([lab for _, _, lab, _ in items], dtype=int)
+
+
 def read_corpus(cfg):
-    """Return (texts, labels) as Python list / np.ndarray, in file order."""
+    """Return (texts, labels) as Python list / np.ndarray, in file (or arrival) order."""
     d = cfg["data"]
-    path = SAMPLE if d.get("source", "sample") == "sample" else Path(d["path"])
+    source = d.get("source", "sample")
+    if source == "enron":
+        return read_enron(d["enron_path"])
+    path = SAMPLE if source == "sample" else Path(d["path"])
     if not path.exists():
         raise FileNotFoundError(
             f"{path} not found. See data/README.md for how to download the SMS Spam Collection.")
