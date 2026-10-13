@@ -61,7 +61,7 @@ is worth at most 5 of its 30 points; say plainly why. The SVM and KNN may use sc
 
 ## Bonus (exploratory) criterion
 
-`exploratory_bonus` is **extra credit worth up to 10 points** on top of the 100. Score it only from evidence
+`exploratory_bonus` is **extra credit worth up to 10 points** on top of the 100, split **5 points for the cross-corpus transfer experiment (`cross_corpus_transfer`) and 5 points for the comparison with Metsis et al. 2006 (`metsis_comparison`)**. In the justification say how many points each part earned. Score it only from evidence
 (`exploratory_enron` check, `cross_corpus` in metrics.json, the report). A submission that skips it loses nothing.
 The maximum total is therefore 110; report `total` and `max` accordingly (max 110 if you scored the bonus).
 

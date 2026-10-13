@@ -60,17 +60,28 @@ criteria:
       See auto check: git_hygiene, report_present.
 
   - id: exploratory_bonus
-    title: "Bonus: exploratory work (Enron-Spam)"
+    title: "Bonus: exploratory work (Enron-Spam), 10 points = 5 + 5"
     max_points: 10
     bonus: true
     check: both
+    parts:
+      - id: cross_corpus_transfer
+        max_points: 5
+        guidance: >
+          Enron-Spam obtained and documented (data/README.md); the cross-corpus experiment is run in both
+          directions (evaluate.cross_corpus: true -> metrics.json `cross_corpus`) and/or the pipeline is run on
+          Enron (data.source: enron); each vectorizer fitted on its own training corpus only (no leakage); metrics
+          reported with precision/recall/MCC, not accuracy alone; an evidence-based explanation of why the
+          filters transfer or fail (message length, vocabulary, class balance, headers).
+      - id: metsis_comparison
+        max_points: 5
+        guidance: >
+          An evidence-based comparison of the student's Enron results (Naive Bayes, and SVM if run) with Metsis,
+          Androutsopoulos & Paliouras (2006): which Naive Bayes variants that paper evaluates and how the student's
+          multinomial model relates to them, differences in data subsets and evaluation setup, and honest caveats.
     guidance: >
-      EXTRA CREDIT on top of the 100 points; never deduct from the 100 for skipping it. Award up to 10 for
-      the quality of the exploratory work: the Enron-Spam corpus used correctly (data/README.md), and
-      cross-corpus transfer (evaluate.cross_corpus: true, metrics.json -> cross_corpus) and/or the pipeline run
-      on Enron (data.source: enron), with an evidence-based discussion of why SMS and e-mail differ (length,
-      vocabulary, class balance, headers) and a comparison with Metsis et al. (2006). The optional transformer
-      preview may also count. See auto check: exploratory_enron.
+      EXTRA CREDIT on top of the 100 points; never deduct from the 100 for skipping it. Score the two parts above
+      (5 + 5). The optional transformer preview earns no points. See auto check: exploratory_enron.
 
 # 620 (graduate) students: hold `evaluation` and `discussion` to a higher bar: run the real corpus
 # (not the bundled sample), compare feature variants (n-grams, sublinear tf, LSI), and discuss
