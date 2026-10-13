@@ -2,7 +2,7 @@
 and to document your preprocessing choices in the report.
 
 The vectorizer is FITTED ON TRAINING TEXT ONLY and then used to transform the test text. Fitting
-the vocabulary or the IDF weights on the test set is data leakage (see L04, L10).
+the vocabulary or the IDF weights on the test set is data leakage (see the course notes on evaluation and text features).
 """
 from __future__ import annotations
 

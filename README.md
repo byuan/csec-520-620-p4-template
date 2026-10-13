@@ -39,7 +39,7 @@ data:
 | `NaiveBayesReference` in `src/naive_bayes.py` | provided | wraps scikit-learn; lets the pipeline run, and is your **correctness oracle** |
 | `NaiveBayesScratch` in `src/naive_bayes.py` | **stubs** | **Yours to implement.** This is the assignment. |
 
-Implement, roughly in this order (the model and equations are in the file's docstring and in L08):
+Implement, roughly in this order (the model and equations are in the file's docstring and in your course notes on Naive Bayes):
 
 1. `_class_log_prior`: log class priors from the label counts
 2. `_feature_log_prob`: per-class word log-probabilities with **add-alpha (Laplace) smoothing**
@@ -111,7 +111,7 @@ Agreement near 1.0 with tiny differences means your implementation estimates the
 └── .github/workflows/  # CI: lint + tests + a sanity reproduce run
 ```
 
-## Evaluation rules (from L04, L08, L10)
+## Evaluation rules
 
 - **Fit on training data only**: vocabulary, IDF weights, and every hyperparameter (alpha, C, k).
   Never use the test set to choose anything.

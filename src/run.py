@@ -86,7 +86,7 @@ def run_protocol(cfg, protocol, out):
         ev.save_alpha_sweep([s["alpha"] for s in sweep], [s["f1"] for s in sweep],
                             [s["mcc"] for s in sweep], os.path.join(out, f"alpha_sweep_{protocol}.png"))
 
-    # ---- linear SVM (L09) ---------------------------------------------------------------
+    # ---- linear SVM ---------------------------------------------------------------
     svm = build_svm(cfg).fit(X_tr, y_tr)
     record("linear_svm", svm.predict(X_te), svm.decision_function(X_te), {"C": float(cfg["svm"]["C"])})
 

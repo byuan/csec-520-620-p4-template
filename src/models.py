@@ -1,6 +1,6 @@
 """Classifiers other than Naive Bayes, plus the exploratory clustering. PROVIDED.
 
-Linear SVM (L09) and KNN (L07) use scikit-learn: only the Naive Bayes must be your own code.
+The linear SVM and KNN use scikit-learn: only the Naive Bayes must be your own code.
 """
 from __future__ import annotations
 

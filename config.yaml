@@ -34,7 +34,7 @@ knn:
 kmeans:                      # exploratory clustering of the TF-IDF vectors (labels used to EVALUATE only)
   k: 2
   implementation: sklearn    # "sklearn" | "p2" (your Project 2 code in src/p2_kmeans.py, class KMeansScratch)
-  lsi_components: 50         # reduce with truncated SVD first (L10)
+  lsi_components: 50         # reduce with truncated SVD first
 
 evaluate:
   cross_corpus: false        # exploratory: train on the main corpus, test on Enron-Spam (and the reverse)

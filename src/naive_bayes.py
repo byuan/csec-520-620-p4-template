@@ -1,4 +1,4 @@
-"""Multinomial Naive Bayes for text (L08).
+"""Multinomial Naive Bayes for text.
 
 * NaiveBayesReference  - PROVIDED. Wraps scikit-learn's MultinomialNB. It lets the pipeline run before
                          you write code, and it is your CORRECTNESS ORACLE.
