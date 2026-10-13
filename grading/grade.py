@@ -130,6 +130,19 @@ def check_duplicates():
     return {"id": "duplicates", "status": "review" if leaky else "pass", "evidence": ev}
 
 
+def check_exploratory():
+    """Bonus work: Enron-Spam cross-corpus run or the pipeline run on Enron."""
+    m, err = _metrics()
+    if m is None:
+        return {"id": "exploratory_enron", "status": "review", "evidence": err}
+    cross = m.get("cross_corpus")
+    on_enron = m.get("data_source") == "enron"
+    done = bool(cross) or on_enron
+    return {"id": "exploratory_enron", "status": "pass" if done else "not_attempted",
+            "evidence": {"cross_corpus_in_metrics": bool(cross), "pipeline_on_enron": on_enron,
+                         "note": "bonus only (up to +10); not attempting it costs nothing"}}
+
+
 def _scratch_class():
     try:
         tree = ast.parse(_read(ROOT / "src" / "naive_bayes.py"))
@@ -250,7 +263,7 @@ def main():
     checks = [check_structure(), check_tests(), check_reproduce(), check_metrics(), check_protocols(),
               check_data_source(), check_duplicates(), check_config_uses_scratch(),
               check_scratch_implemented(), check_no_library_nb_in_scratch(),
-              check_reference_agreement(), check_leakage(), check_report(), check_git_hygiene()]
+              check_reference_agreement(), check_leakage(), check_report(), check_git_hygiene(), check_exploratory()]
     report = {
         "generated": time.strftime("%Y-%m-%d %H:%M:%S"),
         "repo": ROOT.name,

@@ -87,7 +87,7 @@ Agreement near 1.0 with tiny differences means your implementation estimates the
 - **Evaluate** under both protocols: the paper's (`paper`: first 30% for training) and a `stratified` split.
   Report precision, recall (Spam Caught), Blocked Ham, F1, MCC and ROC-AUC / PR-AUC, not accuracy alone.
 - **Compare** with Almeida et al. (2011).
-- **Exploratory (Enron-Spam):** repeat the study on the larger Enron-Spam e-mail corpus and test how well a filter transfers
+- **Exploratory (Enron-Spam), worth up to 10 extra points:** repeat the study on the larger Enron-Spam e-mail corpus and test how well a filter transfers
   between SMS and e-mail (`evaluate.cross_corpus: true`). Download steps are in `data/README.md`; compare with Metsis et al. (2006).
 
 ## Repository layout
@@ -131,6 +131,7 @@ Agreement near 1.0 with tiny differences means your implementation estimates the
 - [ ] Comparison with the paper
 - [ ] Report in IEEE format (`report/`), numbers matching `results/metrics.json`
 - [ ] `SUBMISSION.md` filled in
+- [ ] (bonus, up to +10) Exploratory Enron-Spam work done and reported
 
 ## Submitting
 

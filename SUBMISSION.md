@@ -48,7 +48,7 @@ Anything non-default the grader must know (data download, runtime):
 
 - Operating point / threshold and the cost argument behind it:
 
-## Exploratory task (Enron-Spam), if done
+## Exploratory task (Enron-Spam), if done (bonus: up to 10 extra points)
 - Which Enron set(s) and what you did (pipeline on Enron / cross-corpus):
 - Main finding (transfer SMS <-> Enron, differences from the SMS results):
 

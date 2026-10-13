@@ -59,6 +59,12 @@ is worth at most 5 of its 30 points; say plainly why. The SVM and KNN may use sc
 - Accuracy alone is not evidence of a good spam filter (the all-ham baseline is 86.6%).
 - Partial credit is fine; always explain the deduction.
 
+## Bonus (exploratory) criterion
+
+`exploratory_bonus` is **extra credit worth up to 10 points** on top of the 100. Score it only from evidence
+(`exploratory_enron` check, `cross_corpus` in metrics.json, the report). A submission that skips it loses nothing.
+The maximum total is therefore 110; report `total` and `max` accordingly (max 110 if you scored the bonus).
+
 ## Output contract: `grading/grade.json`
 
 ```json
@@ -70,10 +76,11 @@ is worth at most 5 of its 30 points; say plainly why. The SVM and KNN may use sc
     {"id": "text_and_classifiers",  "score": 26, "max": 30, "justification": "..."},
     {"id": "evaluation",            "score": 20, "max": 25, "justification": "..."},
     {"id": "discussion",            "score": 11, "max": 15, "justification": "..."},
-    {"id": "code_quality",          "score": 8,  "max": 10, "justification": "..."}
+    {"id": "code_quality",          "score": 8,  "max": 10, "justification": "..."},
+    {"id": "exploratory_bonus",     "score": 6,  "max": 10, "justification": "bonus; Enron cross-corpus run and discussion"}
   ],
-  "total": 83,
-  "max": 100,
+  "total": 89,
+  "max": 110,
   "integrity_flags": [],
   "summary": "2-4 sentence overall assessment.",
   "required_fixes": ["Concrete, actionable items the student should address."]

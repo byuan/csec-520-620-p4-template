@@ -3,7 +3,8 @@
 # `check` = auto (verified by grade.py), agent (LLM judgment), or both (auto evidence + agent judgment).
 version: 1
 project: "Project 4: Detecting SMS Spam (unstructured text)"
-total_points: 100
+total_points: 100          # plus up to 10 bonus points (criterion `exploratory_bonus`)
+bonus_points: 10
 
 criteria:
   - id: reproducibility
@@ -57,6 +58,19 @@ criteria:
       Readable, organized, config-driven (no magic numbers), vectorized where reasonable, no dead code,
       passes lint. Data and results are git-ignored, not committed. SUBMISSION.md filled in.
       See auto check: git_hygiene, report_present.
+
+  - id: exploratory_bonus
+    title: "Bonus: exploratory work (Enron-Spam)"
+    max_points: 10
+    bonus: true
+    check: both
+    guidance: >
+      EXTRA CREDIT on top of the 100 points; never deduct from the 100 for skipping it. Award up to 10 for
+      the quality of the exploratory work: the Enron-Spam corpus used correctly (data/README.md), and
+      cross-corpus transfer (evaluate.cross_corpus: true, metrics.json -> cross_corpus) and/or the pipeline run
+      on Enron (data.source: enron), with an evidence-based discussion of why SMS and e-mail differ (length,
+      vocabulary, class balance, headers) and a comparison with Metsis et al. (2006). The optional transformer
+      preview may also count. See auto check: exploratory_enron.
 
 # 620 (graduate) students: hold `evaluation` and `discussion` to a higher bar: run the real corpus
 # (not the bundled sample), compare feature variants (n-grams, sublinear tf, LSI), and discuss
